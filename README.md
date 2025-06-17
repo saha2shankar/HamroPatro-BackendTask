@@ -1,6 +1,6 @@
 # 📘 HamroPatro Backend API – School Data Management
 
-A comprehensive Spring Boot REST API for managing Students, Classes, Teachers, Subjects, and Dashboard statistics.
+A comprehensive RESTful backend system for managing **students**, **teachers**, **classes**, **subjects**, and school-level dashboards — built using **Java Spring Boot**, **MySQL**, and documented with **Swagger/OpenAPI 3.1**.
 
 Version: **1.0.0**  
 API Spec: **OpenAPI 3.1**  
@@ -8,6 +8,15 @@ Swagger Docs: [`/school-api-doc/school-api`](http://localhost:8080/)
 Author: **Harishankar Sah**
 
 ---
+
+## 📌 Project Highlights
+
+- Full CRUD operations for Students, Teachers, Classes, and Subjects
+- DTO-based architecture for secure and clean data exchange
+- Partial updates using PATCH
+- Role-based access (using dummy header: `X-Role`)
+- Aggregate statistics (total students, teachers, class sizes, etc.)
+- Swagger UI integrated for API testing and documentation
 
 ## 🌐 Server
 
@@ -19,7 +28,7 @@ Author: **Harishankar Sah**
 
 Interactive API documentation is available via Swagger UI:
 
-📎 [Swagger UI Documentation](http://localhost:8080/school-api-doc/school-api)
+📎 [Swagger UI Documentation](http://localhost:8080/)
 
 ---
 
@@ -82,6 +91,114 @@ Interactive API documentation is available via Swagger UI:
 | `POST` | `/api/teachers`      | Create a new teacher      |
 
 ---
+
+### 🛠️ Setup Instructions
+
+1. **Clone the repo**
+   ```bash
+   git clone https://github.com/saha2shankar/HamroPatro-BackendTask.git
+   cd HamroPatro-BackendTask
+
+2. **Configure MySQL databas**
+
+Create a database named school_db and update src/main/resources/application.properties:
+
+spring.application.name=HamroPatro-BackendTask
+
+
+# Data configuration
+ ```bash
+spring.datasource.url=jdbc:mysql://localhost:3306/hamroparto-collagesystem?createDatabaseIfNotExist=true
+spring.datasource.username=root
+spring.datasource.password=
+
+# JPA Hibernate configuration
+spring.jpa.hibernate.ddl-auto=update
+spring.jpa.show-sql=true
+spring.jpa.properties.hibernate.dialect=org.hibernate.dialect.MySQL8Dialect
+
+# Swagger Configuration
+springdoc.swagger-ui.operations-sorter=method
+springdoc.swagger-ui.tags-sorter=alpha
+springdoc.swagger-ui.path=/
+springdoc.api-docs.path=/sclool-api-doc
+```
+
+3. **Configure MySQL databas**
+Run the project
+```bash
+./mvnw spring-boot:run
+```
+
+5. **Open Swagger UI**
+```bash
+Visit: http://localhost:8080/
+```
+
+
+
+🧪 Testing the API
+🏗 Initial Setup Required
+Before adding students, first create:
+➕ Add Class
+POST /api/createclass
+```bash
+{ "className": "10A" }
+```
+➕ Add Subject
+POST /api/addsubject
+```bash
+{ "name": "Mathematics" }
+```
+➕ Add Teacher
+POST /api/teachers
+```bash
+{
+  "name": "Mr. Harishanakr sah",
+  "subjectId": 1,
+  "classSectionId": 1
+}
+```
+➕ Add Student (Protected by Role Header)
+POST /api/students
+Headers Required:
+X-Role: teacher
+Request Body:
+```bash
+{
+  "name": "Sanjay Yadav",
+  "classNumber": "10",
+  "section": "A",
+  "rollNumber": 20,
+  "contactDetails": "9800000000",
+  "classSectionId": 1
+}
+```
+🔐 Role-Based Access
+Update and Create operations on students are restricted to users with role teacher.
+Use the header in Swagger or Postman:
+X-Role: teacher
+
+📊 API Coverage
+Module	Endpoints
+```bash
+Classes	GET /api/classes, POST /api/createclass
+Students	GET /api/students, GET /api/students/{id}, POST /api/students, PUT /api/students, PATCH /api/students/{id}, DELETE /api/students/{id}, GET /api/filter
+Teachers	GET /api/teachers, GET /api/teacher/{id}, POST /api/teachers
+Subjects	GET /api/subjectlist, POST /api/addsubject
+Dashboard	GET /api/dashboard, GET /api/stats
+```
+📂 Project Structure
+```bash
+src/
+├── controller/
+├── service/
+├── dto/
+├── model/
+├── repository/
+├── exception/
+└── config/
+```
 
 ## 🔐 Security
 
