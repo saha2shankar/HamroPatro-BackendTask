@@ -24,11 +24,11 @@ public class SwaggerConfig {
                 .info(new Info()
                         .title("Hamropatro Backend API task")
                         .version("1.0.0")
-                        .termsOfService("http://harishankar.info.np")
+                        .termsOfService("https://harishankar.info.np")
                         .description("Comprehensive API for managing students, classes, teachers, and subjects.")
                         .contact(new Contact()
                         		.email("sahharishankar11@gmail.com")
                                 .name("Harishankar Sah")
-                                .url("http://harishankar.info.np")));
+                                .url("https://harishankar.info.np")));
     }
 }
